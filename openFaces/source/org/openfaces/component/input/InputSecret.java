@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 public class InputSecret extends OUIInputText {
     public static final String COMPONENT_TYPE = "org.openfaces.InputSecret";
     public static final String COMPONENT_FAMILY = "org.openfaces.InputSecret";
+    public static final String DEFAULT_INPUT_SECRET_VALUE = "";
 
     private Integer maxlength;
     private Integer size;
@@ -62,7 +63,6 @@ public class InputSecret extends OUIInputText {
         interval = (Integer) values[i++];
         duration = (Integer) values[i++];
         replacement = (String) values[i++];
-
     }
 
     public int getSize() {
@@ -103,5 +103,10 @@ public class InputSecret extends OUIInputText {
 
     public void setReplacement(String replacement) {
         this.replacement = replacement;
+    }
+
+    @Override
+    public String getDefaultValue(){
+        return DEFAULT_INPUT_SECRET_VALUE;
     }
 }

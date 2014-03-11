@@ -29,6 +29,11 @@ public class OUIInputText extends OUIInputBase {
     private String tabindex;
     private String title;
     private Boolean readonly;
+    private String defaultValue = "";
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
 
     public String getPromptText() {
         return ValueBindings.get(this, "promptText", promptText);

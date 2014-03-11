@@ -23,6 +23,7 @@ import javax.faces.context.FacesContext;
 public class InputText extends OUIInputText {
     public static final String COMPONENT_TYPE = "org.openfaces.InputText";
     public static final String COMPONENT_FAMILY = "org.openfaces.InputText";
+    private static final String DEFAULT_INPUT_TEXT_VALUE = "";
 
     private String dir;
     private String lang;
@@ -97,6 +98,10 @@ public class InputText extends OUIInputText {
         this.maxlength = maxlength;
     }
 
+    @Override
+    public String getDefaultValue() {
+        return DEFAULT_INPUT_TEXT_VALUE;
+    }
 
     @Override
     public Object saveState(FacesContext context) {

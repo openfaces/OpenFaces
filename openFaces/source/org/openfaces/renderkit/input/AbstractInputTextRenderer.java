@@ -51,13 +51,15 @@ public abstract class AbstractInputTextRenderer extends RendererBase {
         OUIInputText inputText = (OUIInputText) component;
         String clientId = inputText.getClientId(context);
 
+        String defaultValue = inputText.getDefaultValue();
         String value = (String) requestMap.get(clientId);
+
         String promptVisibleFlag = (String) requestMap.get(clientId + PROMPT_VISIBLE_SUFFIX);
 
-        if ("false".equals(promptVisibleFlag) && value != null) {
+        if ("false".equals(promptVisibleFlag) && value != null && !value.equals("")) {
             inputText.setSubmittedValue(value);
         } else {
-            inputText.setSubmittedValue("");
+            inputText.setSubmittedValue(defaultValue);
         }
     }
 

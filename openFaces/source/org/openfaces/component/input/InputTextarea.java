@@ -22,6 +22,7 @@ import javax.faces.context.FacesContext;
 public class InputTextarea extends OUIInputText {
     public static final String COMPONENT_TYPE = "org.openfaces.InputTextarea";
     public static final String COMPONENT_FAMILY = "org.openfaces.InputTextarea";
+    private static final String DEFAULT_TEXTAREA_VALUE = "No Data";
 
     private Integer rows;
     private Integer cols;
@@ -94,6 +95,11 @@ public class InputTextarea extends OUIInputText {
 
     public boolean isAutoGrowing() {
         return ValueBindings.get(this, "autoGrowing", autoGrowing, false);
+    }
+
+    @Override
+    public String getDefaultValue() {
+        return DEFAULT_TEXTAREA_VALUE;
     }
 
     @Override
