@@ -2644,11 +2644,20 @@ if (!window.O$) {
       var dy = dragY - draggable._lastDragY - yChangeSinceLastDrag;
       var newLeft = left + dx;
       var newTop = top + dy;
-
-      var containmentCorrectedLeft = newLeft;
-      var containmentCorrectedTop = newTop;
       var containingBlock = draggable.offsetParent;
       if (!containingBlock) containingBlock = document.body;
+
+      var containmentCorrectedLeft =
+              newLeft <= 0 ? 1
+                      : newLeft >= (containingBlock.offsetWidth - draggable._originalSize.width)
+                      ? (containingBlock.offsetWidth - draggable._originalSize.width) - 1
+                      : newLeft;
+
+      var containmentCorrectedTop =
+              newTop <= 0 ? 1
+                      : newTop >= (containingBlock.offsetHeight - draggable._originalSize.height)
+                      ? (containingBlock.offsetHeight - draggable._originalSize.height) - 1
+                      : newTop;
 
       var containmentRect = draggable._containment && (!draggable._containment ||
               draggable._containmentRole == "restrictMovement" ||
@@ -3166,7 +3175,11 @@ if (!window.O$) {
           }
         }
       } else { // all others
-        styleSheet.insertRule(strRule, styleSheet.rules.length);
+        if(!styleSheet.rules){
+          styleSheet.insertRule(strRule, styleSheet.cssRules.length);
+        }else{
+          styleSheet.insertRule(strRule, styleSheet.rules.length);
+        }
       }
       return styleSheet;
     } catch (e) {
@@ -3180,6 +3193,17 @@ if (!window.O$) {
 
   };
 
+  O$._removeUnusedCssRules = function(){
+    var styleSheet = O$.getLocalStyleSheet();
+    var rules = styleSheet.cssRules || styleSheet.rules;
+
+    for (var i = rules.length - 1; i >= 0; i--) {
+      var selectorText = rules[i].selectorText;
+      if (!document.querySelector(selectorText) || !selectorText) {
+        styleSheet.removeRule(i);
+      }
+    }
+  };
 
   // Function which used in IE to pack different rules to one
   // @styleSheet link to style sheet in DOM which need to be packed
@@ -3263,8 +3287,8 @@ if (!window.O$) {
       return;
 
     try {
+      var rules = styleSheet.cssRules ? styleSheet.cssRules : styleSheet.rules;
       if (styleSheet.removeRule) { // IE only
-        var rules = styleSheet.rules;
         for (var i = 0; i < rules.length; i++) {
           if (rules[i].selectorText == nameOfCssClass) {
             var ruleBySelector = O$._cssRulesBySelectors ? O$._cssRulesBySelectors[nameOfCssClass] : null;
@@ -3274,7 +3298,6 @@ if (!window.O$) {
           }
         }
       } else { // all others
-        var rules = styleSheet.rules;
         for (var i = 0; i < rules.length; i++) {
           if (rules[i].selectorText == nameOfCssClass) {
             var ruleBySelector = O$._cssRulesBySelectors ? O$._cssRulesBySelectors[nameOfCssClass] : null;
