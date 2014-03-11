@@ -2611,8 +2611,9 @@ if (!window.O$) {
 
     O$._draggedElement = draggable;
     O$.cancelEvent(evt);
-    if (document._fireDocumentClicked)
+    if (document._fireDocumentClicked){
       document._fireDocumentClicked(evt);
+    }
 
     function handleDragMove(e) {
       var evt = O$.getEvent(e);
