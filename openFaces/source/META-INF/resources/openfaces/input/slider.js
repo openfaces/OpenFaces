@@ -87,6 +87,7 @@ O$.Slider = {
         }
         if (newValue != prevValue) {
           slider.s_textField.value = O$.Dojo.Number.format(newValue, formatOptions);
+          this.redisplayHandle();
         }
       },
 
